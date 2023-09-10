@@ -1,17 +1,25 @@
-import React from 'react'
-import Card from '../Components/Card'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-//Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
+export function Home() {
+  const [dentists, setDentists] = useState([]);
 
-const Home = () => {
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users').then(res => res.json()).then(data => setDentists(data))
+  }, []);
   return (
-    <main className="" >
-      <h1>Home</h1>
-      <div className='card-grid'>
-        {/* Aqui deberias renderizar las cards */}
-      </div>
-    </main>
-  )
+    <div>
+      <h2>Listado de Dentistas</h2>
+      {dentists.map((dentist) => (
+        <div key={dentist.id}>
+          <Link to={`/dentist/${dentist.id}`}>
+            <h3>{dentist.name}</h3>
+          </Link>
+          <p>Email: {dentist.email}</p>
+          <p>Teléfono: {dentist.phone}</p>
+          <p>Website: {dentist.website}</p>
+        </div>
+      ))}
+    </div>
+  );
 }
-
-export default Home

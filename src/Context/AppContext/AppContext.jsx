@@ -1,26 +1,16 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
-// Definimos el contexto
 export const AppContext = createContext();
 
-// Accesor personalizado para el contexto
-// const useAppContext = () => {
-//     const context = useContext(AppContext);
-//     if (!context) {
-//         throw new Error('useAppContext debe usarse dentro de un proveedor AppContext');
-//     }
-//     return context;
-// };
 
 
-// Tipos de acciones para el useReducer
+
 export const actionTypes = {
     TOGGLE_THEME: 'TOGGLE_THEME',
     ADD_TO_FAVORITES: 'ADD_TO_FAVORITES',
     REMOVE_FROM_FAVORITES: 'REMOVE_FROM_FAVORITES',
   };
   
-  // Función reductora para gestionar el estado global
   const appReducer = (state, action) => {
     switch (action.type) {
       case actionTypes.TOGGLE_THEME:
@@ -37,14 +27,10 @@ export const actionTypes = {
     }
   };
   
-  // ... (código restante)
-  
-
-// Componente Provider que envuelve la aplicación
 export const AppProvider = ({ children }) => {
     const initialState = {
-        darkMode: false,
-        favorites: []
+        darkMode: !!localStorage.theme,
+        favorites: localStorage.favs ? JSON.parse(localStorage.favs) : []
     };
 
     const [state, dispatch] = useReducer(appReducer, initialState);
